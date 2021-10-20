@@ -1,0 +1,9 @@
+.message {
+    padding: 1.25rem;
+    margin: 0.75rem 1.25rem;
+    background-color: #fafafa;
+    border: transparent 0.125rem solid;
+    border-left-color: #aaa;
+    border-radius: 0.25rem;
+    max-width: 33%;
+}
