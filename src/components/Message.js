@@ -1,7 +1,10 @@
 import './Message.css'
-const Message = ({text}) => {
+const Message = ({ text, author }) => {
   return (
-    <div className="message">{text}</div>
+    <div className="message">
+        <h4>{author}</h4>
+        <p>{text}</p>
+    </div>
   );
 }
 
