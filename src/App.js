@@ -1,14 +1,51 @@
+import { useEffect, useState } from 'react';
 import './App.css';
-import Message from "./components/Message";
+import Message from "./components/Message/Message";
+import NewMessage from './components/NewMessage/NewMessage';
+import { BOT } from './const';
 
-function App({user}) {
+function App({ user }) {
+  const [messageList, setMessageList] = useState([]);
+  
+  //функция добавления нового сообщения
+  const addNewMessage = (author, text) => {
+    setMessageList(messageList => [...messageList, {
+      author: author,
+      text: text
+    }])
+  }
 
-  const TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. "
+  //обработчик нажатия кнопки отправки сообщения
+  const handleButtonClick = (messageText) => {
+    addNewMessage(user, messageText);
+  }
+  
+  //проверка отправки сообщения пользователем и ответ бота
+  useEffect(() => {
+    let timerID;
+    if (messageList.length !== 0) {
+      const lastMessage = messageList[messageList.length - 1];
+      if(lastMessage.author === user) {
+        timerID = setTimeout(() => {
+          addNewMessage(BOT.name, BOT.message)
+        }, 1500)
+      }
+    }
+    return () => clearTimeout(timerID);
+  }, [messageList, user])
 
   return (
     <div className="flex-container">
-      <Message text={`Hello, ${user}!`}/>
-      <Message text={TEXT}/>
+      <NewMessage handleButtonClick={handleButtonClick}/>
+      {messageList.map(({ text, author }, i) => {
+        return (
+          <Message
+            key={author + i}
+            text={text} 
+            author={author}
+          />
+        )
+      })}
     </div>
   );
 }

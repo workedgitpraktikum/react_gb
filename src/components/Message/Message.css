@@ -5,5 +5,11 @@
     border: transparent 0.125rem solid;
     border-left-color: #aaa;
     border-radius: 0.25rem;
-    max-width: 33%;
+    max-width: 66%;
+}
+.message-bot {
+    background-color: #c0e7e7;
+    border-left-color: transparent;
+    border-right-color: #06d8d8;
+    margin-left: calc(1.25rem + 33%)
 }
