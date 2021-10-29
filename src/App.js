@@ -22,15 +22,15 @@ function App({ user }) {
   
   //проверка отправки сообщения пользователем и ответ бота
   useEffect(() => {
-    let timerID;
-    if (messageList.length !== 0) {
-      const lastMessage = messageList[messageList.length - 1];
-      if(lastMessage.author === user) {
-        timerID = setTimeout(() => {
-          addNewMessage(BOT.name, BOT.message)
-        }, 1500)
-      }
+    const lastMessage = messageList[messageList.length - 1];
+
+    if (messageList.length === 0 || lastMessage.author !== user) {
+      return;
     }
+    const timerID = setTimeout(() => {
+      addNewMessage(BOT.name, BOT.message)
+    }, 1500)
+    
     return () => clearTimeout(timerID);
   }, [messageList, user])
 
