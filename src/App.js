@@ -1,10 +1,14 @@
+import { Grid, makeStyles } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import './App.css';
 import Message from "./components/Message/Message";
 import NewMessage from './components/NewMessage/NewMessage';
+import styles from './AppStyles';
 import { BOT } from './const';
 
+const useStyles = makeStyles(styles);
+
 function App({ user }) {
+  const classes = useStyles();
   const [messageList, setMessageList] = useState([]);
   
   //функция добавления нового сообщения
@@ -35,7 +39,10 @@ function App({ user }) {
   }, [messageList, user])
 
   return (
-    <div className="flex-container">
+    <Grid 
+      container
+      className={classes.container}
+    >
       <NewMessage handleButtonClick={handleButtonClick}/>
       {messageList.map(({ text, author }, i) => {
         return (
@@ -46,7 +53,7 @@ function App({ user }) {
           />
         )
       })}
-    </div>
+    </Grid>
   );
 }
 
