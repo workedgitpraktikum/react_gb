@@ -1,14 +1,34 @@
+import { Grid, makeStyles, Paper } from '@material-ui/core';
 import { BOT } from '../../const';
-import './Message.css';
+import styles from './MessageStyles.js';
+
+const useStyles = makeStyles(styles);
 
 const Message = ({ text, author }) => {
+  const classes = useStyles();
+
   return (
-    <div className={
-      `message ${author === BOT.name && "message-bot"}`
-    }>
-        <h4>{author}</h4>
-        <p>{text}</p>
-    </div>
+      <Grid 
+        item 
+        xs={8}
+        style={
+          author !== BOT.name 
+            ? {marginLeft: "calc(1.25rem + 32%)"} 
+            : null
+        }
+      >
+        <Paper
+          className={`
+            ${classes.message} 
+            ${author === BOT.name 
+              ? classes.messageBot 
+              : 'null'}
+          `}
+        >
+          <h4>{author}</h4>
+          <p>{text}</p>
+        </Paper>
+      </Grid>
   );
 }
 

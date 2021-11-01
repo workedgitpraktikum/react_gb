@@ -10,14 +10,13 @@ const NewMessage = ({ handleButtonClick }) => {
 
   return (
     <Grid 
-      container 
-      direction="column"
-      style={{maxWidth: "66%"}}
-      alignItems="flex-end"
+      container
+      justifyContent="flex-end"
     >
       <TextField
         className={classes.newMessage}
         fullWidth
+        autoFocus
         placeholder="Введите текст сообщения..."
         value={messageText}
         multiline

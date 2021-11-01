@@ -1,19 +1,35 @@
-import { Grid, makeStyles } from '@material-ui/core';
 import { useEffect, useState } from 'react';
+import { Grid } from '@material-ui/core';
 import Message from "./components/Message/Message";
 import NewMessage from './components/NewMessage/NewMessage';
-import styles from './AppStyles';
+import ChatList from './components/ChatList/ChatList';
 import { BOT } from './const';
 
-const useStyles = makeStyles(styles);
+const CHAT_LIST = [
+  {
+    id: "chat_01",
+    name: "My fancy chat", 
+    image: "https://picsum.photos/id/11/40"
+  }, 
+  {
+    id: "chat_02",
+    name: "Dolor sit amet", 
+    image: "https://picsum.photos/id/22/40"
+  }, 
+  {
+    id: "chat_03",
+    name: "Lorem Ipsum", 
+    image: "https://picsum.photos/id/33/40"
+  }, 
+]
 
 function App({ user }) {
-  const classes = useStyles();
   const [messageList, setMessageList] = useState([]);
   
   //функция добавления нового сообщения
   const addNewMessage = (author, text) => {
     setMessageList(messageList => [...messageList, {
+      id: author + messageList.length,
       author: author,
       text: text
     }])
@@ -41,18 +57,27 @@ function App({ user }) {
   return (
     <Grid 
       container
-      className={classes.container}
+      style={{
+        marginTop: "4rem",
+      }}
     >
-      <NewMessage handleButtonClick={handleButtonClick}/>
-      {messageList.map(({ text, author }, i) => {
-        return (
-          <Message
-            key={author + i}
-            text={text} 
-            author={author}
-          />
-        )
-      })}
+      <Grid item xs={3}>
+        <ChatList list={CHAT_LIST}/>
+      </Grid>
+      <Grid item xs={8}>
+        <Grid container direction="column-reverse">
+          {messageList.map(({ id, text, author }) => {
+            return (
+              <Message
+                key={id}
+                text={text} 
+                author={author}
+              />
+            )
+          })}
+          <NewMessage handleButtonClick={handleButtonClick}/>
+        </Grid>
+      </Grid>
     </Grid>
   );
 }
