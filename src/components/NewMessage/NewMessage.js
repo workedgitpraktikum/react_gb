@@ -1,5 +1,5 @@
 import { Button, Grid, makeStyles, TextField } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './NewMessageStyles.js';
 
 const useStyles = makeStyles(styles);
@@ -8,6 +8,10 @@ const NewMessage = ({ handleButtonClick }) => {
   const classes = useStyles();
   const [messageText, setMessageText] = useState('');
 
+  const inputRef = useRef(null)
+
+  useEffect(() => inputRef.current.focus());
+  
   return (
     <Grid 
       container
@@ -16,7 +20,7 @@ const NewMessage = ({ handleButtonClick }) => {
       <TextField
         className={classes.newMessage}
         fullWidth
-        autoFocus
+        inputRef={inputRef}
         placeholder="Введите текст сообщения..."
         value={messageText}
         multiline
