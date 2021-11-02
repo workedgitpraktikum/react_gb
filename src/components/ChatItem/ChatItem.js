@@ -1,4 +1,5 @@
 import { Avatar, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 const ChatItem = ({ name, image }) => {
   return (
@@ -12,3 +13,8 @@ const ChatItem = ({ name, image }) => {
 }
 
 export default ChatItem;
+
+ChatItem.propTypes = {
+  name: PropTypes.string,
+  image: PropTypes.string
+}

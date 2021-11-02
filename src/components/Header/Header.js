@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AppBar, Toolbar, Typography, Switch, makeStyles } from "@material-ui/core";
 import { NightsStayTwoTone, WbSunnyTwoTone } from "@material-ui/icons";
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   title: {
@@ -8,7 +9,7 @@ const useStyles = makeStyles({
   }
 });
 
-export const Header = ({changeThemeType}) => {
+const Header = ({changeThemeType}) => {
   const classes = useStyles();
 	const [isDark, setIsDark] = useState(false);
 
@@ -38,3 +39,9 @@ export const Header = ({changeThemeType}) => {
     </>
   );
 };
+
+export default Header;
+
+Header.propTypes = {
+  changeThemeType: PropTypes.func
+}

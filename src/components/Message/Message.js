@@ -1,6 +1,7 @@
 import { Grid, makeStyles, Paper } from '@material-ui/core';
 import { BOT } from '../../const';
 import styles from './MessageStyles.js';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(styles);
 
@@ -33,3 +34,8 @@ const Message = ({ text, author }) => {
 }
 
 export default Message;
+
+Message.propTypes = {
+  text: PropTypes.string,
+  author: PropTypes.string
+}

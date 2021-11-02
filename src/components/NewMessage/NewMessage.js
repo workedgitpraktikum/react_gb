@@ -1,6 +1,7 @@
 import { Button, Grid, makeStyles, TextField } from '@material-ui/core';
 import { useEffect, useRef, useState } from 'react';
 import styles from './NewMessageStyles.js';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(styles);
 
@@ -45,3 +46,7 @@ const NewMessage = ({ handleButtonClick }) => {
 }
 
 export default NewMessage;
+
+NewMessage.propTypes = {
+  handleButtonClick: PropTypes.func
+}
