@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   }
 });
 
-const Header = ({changeThemeType}) => {
+const Header = ({ changeThemeType }) => {
   const classes = useStyles();
 	const [isDark, setIsDark] = useState(false);
 
