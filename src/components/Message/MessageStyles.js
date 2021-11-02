@@ -1,13 +1,15 @@
+import { blue, grey } from "@material-ui/core/colors";
+
 const styles = {
 	message: {
 		padding: "1.25rem",
 		margin: "0.75rem 1.25rem",
 		border: "transparent 0.125rem solid",
-		borderRightColor: "#aaa",
+		borderRightColor:grey[500],
 	},
 	messageBot: {
-		backgroundColor: "#c0e7e7",
-		borderLeftColor: "#06d8d8",
+		backgroundColor: blue[300],
+		borderLeftColor: blue[700],
 		borderRightColor: "transparent",
 	}
 }

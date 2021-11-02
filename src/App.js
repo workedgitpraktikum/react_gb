@@ -1,31 +1,43 @@
 import { useEffect, useState } from 'react';
-import { Grid } from '@material-ui/core';
+import { CssBaseline, Grid } from '@material-ui/core';
 import Message from "./components/Message/Message";
 import NewMessage from './components/NewMessage/NewMessage';
 import ChatList from './components/ChatList/ChatList';
-import { BOT } from './const';
+import { BOT, CHAT_LIST } from './const';
+import { Header } from './components/Header/Header';
+import { createTheme, ThemeProvider } from '@material-ui/core';
 
-const CHAT_LIST = [
-  {
-    id: "chat_01",
-    name: "My fancy chat", 
-    image: "https://picsum.photos/id/11/40"
-  }, 
-  {
-    id: "chat_02",
-    name: "Dolor sit amet", 
-    image: "https://picsum.photos/id/22/40"
-  }, 
-  {
-    id: "chat_03",
-    name: "Lorem Ipsum", 
-    image: "https://picsum.photos/id/33/40"
-  }, 
-]
+
+const initialTheme = createTheme({
+  palette: {
+    type: "light"
+  }
+});
 
 function App({ user }) {
   const [messageList, setMessageList] = useState([]);
-  
+  const [theme, setTheme] = useState(initialTheme );
+
+  //функция переключения темы
+  const changeThemeType = (isDark, setIsDark) => {
+    if (isDark) {
+      const theme = createTheme({
+        palette: {
+          type: "light"
+        }
+      });
+      setTheme(theme);
+    } else {
+      const theme = createTheme({
+        palette: {
+          type: "dark"
+        }
+      });
+      setTheme(theme);
+    }
+    setIsDark(!isDark);
+  };
+
   //функция добавления нового сообщения
   const addNewMessage = (author, text) => {
     setMessageList(messageList => [...messageList, {
@@ -55,30 +67,34 @@ function App({ user }) {
   }, [messageList, user])
 
   return (
-    <Grid 
-      container
-      style={{
-        marginTop: "4rem",
-      }}
-    >
-      <Grid item xs={3}>
-        <ChatList list={CHAT_LIST}/>
-      </Grid>
-      <Grid item xs={8}>
-        <Grid container direction="column-reverse">
-          {messageList.map(({ id, text, author }) => {
-            return (
-              <Message
-                key={id}
-                text={text} 
-                author={author}
-              />
-            )
-          })}
-          <NewMessage handleButtonClick={handleButtonClick}/>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Header changeThemeType={changeThemeType}/>
+      <Grid 
+        container
+        style={{
+          marginTop: "4rem",
+        }}
+      >
+        <Grid item xs={3}>
+          <ChatList list={CHAT_LIST}/>
+        </Grid>
+        <Grid item xs={9}>
+          <Grid container direction="column-reverse">
+            {messageList.map(({ id, text, author }) => {
+              return (
+                <Message
+                  key={id}
+                  text={text} 
+                  author={author}
+                />
+              )
+            })}
+            <NewMessage handleButtonClick={handleButtonClick}/>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </ThemeProvider>
   );
 }
 
