@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { CssBaseline, Grid, createTheme, ThemeProvider } from '@material-ui/core';
+import { CssBaseline, createTheme, ThemeProvider } from '@material-ui/core';
 import Header from './components/Header/Header';
-import ChatList from './components/ChatList/ChatList';
-import { CHAT_LIST } from './const';
-import PropTypes from 'prop-types'
-import MessageBox from './components/MessageBox/MessageBox';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { navigation } from './navigation';
 
 const initialTheme = createTheme({
   palette: {
@@ -12,7 +10,7 @@ const initialTheme = createTheme({
   }
 });
 
-function App({ user }) {
+function App() {
   const [theme, setTheme] = useState(initialTheme);
 
   //функция переключения темы
@@ -36,28 +34,25 @@ function App({ user }) {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header changeThemeType={changeThemeType}/>
-      <Grid 
-        container
-        style={{
-          marginTop: "4rem",
-        }}
-      >
-        <Grid item xs={3}>
-          <ChatList list={CHAT_LIST}/>
-        </Grid>
-        <Grid item xs={9}>
-          <MessageBox user={user}/>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Header changeThemeType={changeThemeType}/>
+        <Switch>
+          {navigation.map(({ title, link, component}) => {
+            return (
+              <Route 
+                key={title}
+                exact={link === "/"}
+                path={link} 
+                component={component}
+              />
+            )
+          })}
+        </Switch>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 
 export default App;
-
-App.propTypes = {
-  user: PropTypes.string
-}

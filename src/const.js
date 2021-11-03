@@ -21,3 +21,4 @@ export const CHAT_LIST = [
 	}, 
   ]
   
+export const USER = "Vlad";
