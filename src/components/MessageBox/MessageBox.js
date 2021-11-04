@@ -2,10 +2,14 @@ import { useEffect, useState } from 'react';
 import { Grid } from '@material-ui/core';
 import Message from '../Message/Message';
 import NewMessage from '../NewMessage/NewMessage';
-import { BOT } from '../../const';
+import { BOT, USER } from '../../const';
 import PropTypes from 'prop-types';
+import { Redirect, useParams } from 'react-router';
  
-const MessageBox = ({ user }) => {
+const MessageBox = ({ chatList }) => {
+  const { chatID } = useParams();
+  const chatItem = chatList.find(chatItem => chatItem.id === chatID);
+
   const [messageList, setMessageList] = useState([]);
 
   //функция добавления нового сообщения
@@ -19,14 +23,14 @@ const MessageBox = ({ user }) => {
 
   //обработчик нажатия кнопки отправки сообщения
   const handleButtonClick = (messageText) => {
-    addNewMessage(user, messageText);
+    addNewMessage(USER, messageText);
   }
-  
+
   //проверка отправки сообщения пользователем и ответ бота
   useEffect(() => {
     const lastMessage = messageList[messageList.length - 1];
 
-    if (messageList.length === 0 || lastMessage.author !== user) {
+    if (messageList.length === 0 || lastMessage.author !== USER) {
       return;
     }
     const timerID = setTimeout(() => {
@@ -34,7 +38,11 @@ const MessageBox = ({ user }) => {
     }, 1500)
     
     return () => clearTimeout(timerID);
-  }, [messageList, user])  
+  }, [messageList])  
+
+  if (!chatItem) {
+    return <Redirect to="/chats/" />
+  }
 
   return (
     <Grid container direction="column-reverse">
@@ -55,5 +63,5 @@ const MessageBox = ({ user }) => {
 export default MessageBox;
 
 MessageBox.propTypes = {
-  user: PropTypes.string
+  chatList: PropTypes.array
 }

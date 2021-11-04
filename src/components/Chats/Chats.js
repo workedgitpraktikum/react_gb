@@ -1,10 +1,13 @@
+import { Route, Switch, useRouteMatch } from 'react-router';
 import { Grid } from '@material-ui/core';
 import ChatList from '../ChatList/ChatList';
 import MessageBox from '../MessageBox/MessageBox';
-import { USER, CHAT_LIST } from '../../const';
+import { CHAT_LIST } from '../../const';
 
 const Chats = () => {
-  return (
+	const { path } = useRouteMatch();
+
+	return (
     <Grid
 			container
 			style={{
@@ -12,10 +15,18 @@ const Chats = () => {
 			}}
 		>
 			<Grid item xs={3}>
-				<ChatList list={CHAT_LIST}/>
+				<ChatList chatList={CHAT_LIST} />
 			</Grid>
 			<Grid item xs={9}>
-				<MessageBox user={USER}/>
+				<Switch>
+					<Route exact path={path}>
+						<h3>Выберите чат из представленного списка</h3>
+					</Route>
+					<Route path={`${path}/:chatID`}>
+						<MessageBox chatList={CHAT_LIST} />
+					</Route>
+				</Switch>
+				
 			</Grid>
 		</Grid>
   );

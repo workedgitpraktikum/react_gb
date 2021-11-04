@@ -1,9 +1,14 @@
 import { Avatar, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-const ChatItem = ({ name, image }) => {
+const ChatItem = ({ id, name, image }) => {
   return (
-    <ListItem button>
+    <ListItem 
+      button 
+      component={Link}
+      to={`/chats/${id}`}
+    >
       <ListItemAvatar>
         <Avatar src={image} />
       </ListItemAvatar>
@@ -15,6 +20,7 @@ const ChatItem = ({ name, image }) => {
 export default ChatItem;
 
 ChatItem.propTypes = {
+  id: PropTypes.string,
   name: PropTypes.string,
   image: PropTypes.string
 }
