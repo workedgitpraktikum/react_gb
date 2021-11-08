@@ -3,11 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
-const USER = "Vlad";
-
 ReactDOM.render(
   <React.StrictMode>
-    <App user={USER}/>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

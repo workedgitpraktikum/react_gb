@@ -1,12 +1,8 @@
-import { useEffect, useState } from 'react';
-import { CssBaseline, Grid } from '@material-ui/core';
-import Message from "./components/Message/Message";
-import NewMessage from './components/NewMessage/NewMessage';
-import ChatList from './components/ChatList/ChatList';
-import { BOT, CHAT_LIST } from './const';
-import { Header } from './components/Header/Header';
-import { createTheme, ThemeProvider } from '@material-ui/core';
-
+import { useState } from 'react';
+import { CssBaseline, createTheme, ThemeProvider } from '@material-ui/core';
+import Header from './components/Header/Header';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { navigation } from './navigation';
 
 const initialTheme = createTheme({
   palette: {
@@ -14,9 +10,8 @@ const initialTheme = createTheme({
   }
 });
 
-function App({ user }) {
-  const [messageList, setMessageList] = useState([]);
-  const [theme, setTheme] = useState(initialTheme );
+function App() {
+  const [theme, setTheme] = useState(initialTheme);
 
   //функция переключения темы
   const changeThemeType = (isDark, setIsDark) => {
@@ -38,63 +33,25 @@ function App({ user }) {
     setIsDark(!isDark);
   };
 
-  //функция добавления нового сообщения
-  const addNewMessage = (author, text) => {
-    setMessageList(messageList => [...messageList, {
-      id: author + messageList.length,
-      author: author,
-      text: text
-    }])
-  }
-
-  //обработчик нажатия кнопки отправки сообщения
-  const handleButtonClick = (messageText) => {
-    addNewMessage(user, messageText);
-  }
-  
-  //проверка отправки сообщения пользователем и ответ бота
-  useEffect(() => {
-    const lastMessage = messageList[messageList.length - 1];
-
-    if (messageList.length === 0 || lastMessage.author !== user) {
-      return;
-    }
-    const timerID = setTimeout(() => {
-      addNewMessage(BOT.name, BOT.message)
-    }, 1500)
-    
-    return () => clearTimeout(timerID);
-  }, [messageList, user])
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header changeThemeType={changeThemeType}/>
-      <Grid 
-        container
-        style={{
-          marginTop: "4rem",
-        }}
-      >
-        <Grid item xs={3}>
-          <ChatList list={CHAT_LIST}/>
-        </Grid>
-        <Grid item xs={9}>
-          <Grid container direction="column-reverse">
-            {messageList.map(({ id, text, author }) => {
-              return (
-                <Message
-                  key={id}
-                  text={text} 
-                  author={author}
-                />
-              )
-            })}
-            <NewMessage handleButtonClick={handleButtonClick}/>
-          </Grid>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Header changeThemeType={changeThemeType}/>
+        <Switch>
+          {navigation.map(({ title, link, component}) => {
+            return (
+              <Route 
+                key={title}
+                exact={link === "/"}
+                path={link} 
+                component={component}
+              />
+            )
+          })}
+        </Switch>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 

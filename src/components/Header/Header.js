@@ -1,17 +1,24 @@
 import { useState } from "react";
-import { AppBar, Toolbar, Typography, Switch, makeStyles } from "@material-ui/core";
+import { AppBar, Toolbar, Typography, Switch, makeStyles, Button, Box } from "@material-ui/core";
 import { NightsStayTwoTone, WbSunnyTwoTone } from "@material-ui/icons";
+import PropTypes from 'prop-types';
+import { Link } from "react-router-dom";
+import { navigation } from "../../navigation";
 
 const useStyles = makeStyles({
   title: {
+    marginRight: 16
+  },
+  buttonGroup: {
     flexGrow: 1
   }
 });
 
-export const Header = ({changeThemeType}) => {
+
+const Header = ({ changeThemeType }) => {
   const classes = useStyles();
 	const [isDark, setIsDark] = useState(false);
-
+  
   return (
     <>
       <AppBar position="static">
@@ -24,6 +31,19 @@ export const Header = ({changeThemeType}) => {
           >
             Messenger
           </Typography>
+          <Box className={classes.buttonGroup}>
+            {navigation.map(({ title, link, icon }) => {
+              return (
+                <Button
+                  key={title}
+                  color="inherit"
+                  to={link}
+                  component={Link}
+                  startIcon={icon}
+                >{title}</Button>
+              )
+            })}
+          </Box>
 					<WbSunnyTwoTone/>
 					<Switch
 						checked={isDark}
@@ -38,3 +58,9 @@ export const Header = ({changeThemeType}) => {
     </>
   );
 };
+
+export default Header;
+
+Header.propTypes = {
+  changeThemeType: PropTypes.func
+}
