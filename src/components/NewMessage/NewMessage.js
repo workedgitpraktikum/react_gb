@@ -1,23 +1,20 @@
-import { Button, Grid, makeStyles, TextField } from '@material-ui/core';
-import { useEffect, useRef, useState } from 'react';
-import styles from './NewMessageStyles.js';
-import PropTypes from 'prop-types';
+import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
+import { useEffect, useRef, useState } from "react";
+import styles from "./NewMessageStyles.js";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(styles);
 
 const NewMessage = ({ handleButtonClick }) => {
   const classes = useStyles();
-  const [messageText, setMessageText] = useState('');
+  const [messageText, setMessageText] = useState("");
 
-  const inputRef = useRef(null)
+  const inputRef = useRef(null);
 
   useEffect(() => inputRef.current.focus());
-  
+
   return (
-    <Grid 
-      container
-      justifyContent="flex-end"
-    >
+    <Grid container justifyContent="flex-end">
       <TextField
         className={classes.newMessage}
         fullWidth
@@ -28,7 +25,7 @@ const NewMessage = ({ handleButtonClick }) => {
         minRows={3}
         maxRows={3}
         onChange={(e) => {
-          setMessageText(e.target.value)
+          setMessageText(e.target.value);
         }}
       />
       <Button
@@ -38,15 +35,17 @@ const NewMessage = ({ handleButtonClick }) => {
         disabled={!messageText}
         onClick={() => {
           handleButtonClick(messageText);
-          setMessageText('')
+          setMessageText("");
         }}
-      >Отправить</Button>
+      >
+        Отправить
+      </Button>
     </Grid>
   );
-}
+};
 
 export default NewMessage;
 
 NewMessage.propTypes = {
-  handleButtonClick: PropTypes.func
-}
+  handleButtonClick: PropTypes.func,
+};
