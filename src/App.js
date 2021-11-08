@@ -3,6 +3,8 @@ import { CssBaseline, createTheme, ThemeProvider } from "@material-ui/core";
 import Header from "./components/Header/Header";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { navigation } from "./navigation";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 const initialTheme = createTheme({
   palette: {
@@ -34,24 +36,26 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Header changeThemeType={changeThemeType} />
-        <Switch>
-          {navigation.map(({ title, link, component }) => {
-            return (
-              <Route
-                key={title}
-                exact={link === "/"}
-                path={link}
-                component={component}
-              />
-            );
-          })}
-        </Switch>
-      </ThemeProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Header changeThemeType={changeThemeType} />
+          <Switch>
+            {navigation.map(({ title, link, component }) => {
+              return (
+                <Route
+                  key={title}
+                  exact={link === "/"}
+                  path={link}
+                  component={component}
+                />
+              );
+            })}
+          </Switch>
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
