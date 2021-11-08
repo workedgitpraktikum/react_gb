@@ -1,24 +1,31 @@
 import { useState } from "react";
-import { AppBar, Toolbar, Typography, Switch, makeStyles, Button, Box } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Switch,
+  makeStyles,
+  Button,
+  Box,
+} from "@material-ui/core";
 import { NightsStayTwoTone, WbSunnyTwoTone } from "@material-ui/icons";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { navigation } from "../../navigation";
 
 const useStyles = makeStyles({
   title: {
-    marginRight: 16
+    marginRight: 16,
   },
   buttonGroup: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 });
-
 
 const Header = ({ changeThemeType }) => {
   const classes = useStyles();
-	const [isDark, setIsDark] = useState(false);
-  
+  const [isDark, setIsDark] = useState(false);
+
   return (
     <>
       <AppBar position="static">
@@ -40,19 +47,21 @@ const Header = ({ changeThemeType }) => {
                   to={link}
                   component={Link}
                   startIcon={icon}
-                >{title}</Button>
-              )
+                >
+                  {title}
+                </Button>
+              );
             })}
           </Box>
-					<WbSunnyTwoTone/>
-					<Switch
-						checked={isDark}
-						onChange={() => {
-							changeThemeType(isDark, setIsDark)
-						}}
-						name="change theme"
-					/>
-					<NightsStayTwoTone/>
+          <WbSunnyTwoTone />
+          <Switch
+            checked={isDark}
+            onChange={() => {
+              changeThemeType(isDark, setIsDark);
+            }}
+            name="change theme"
+          />
+          <NightsStayTwoTone />
         </Toolbar>
       </AppBar>
     </>
@@ -62,5 +71,5 @@ const Header = ({ changeThemeType }) => {
 export default Header;
 
 Header.propTypes = {
-  changeThemeType: PropTypes.func
-}
+  changeThemeType: PropTypes.func,
+};

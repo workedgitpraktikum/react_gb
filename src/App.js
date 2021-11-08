@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { CssBaseline, createTheme, ThemeProvider } from '@material-ui/core';
-import Header from './components/Header/Header';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { navigation } from './navigation';
+import { useState } from "react";
+import { CssBaseline, createTheme, ThemeProvider } from "@material-ui/core";
+import Header from "./components/Header/Header";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { navigation } from "./navigation";
 
 const initialTheme = createTheme({
   palette: {
-    type: "light"
-  }
+    type: "light",
+  },
 });
 
 function App() {
@@ -18,15 +18,15 @@ function App() {
     if (isDark) {
       const theme = createTheme({
         palette: {
-          type: "light"
-        }
+          type: "light",
+        },
       });
       setTheme(theme);
     } else {
       const theme = createTheme({
         palette: {
-          type: "dark"
-        }
+          type: "dark",
+        },
       });
       setTheme(theme);
     }
@@ -37,17 +37,17 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Header changeThemeType={changeThemeType}/>
+        <Header changeThemeType={changeThemeType} />
         <Switch>
-          {navigation.map(({ title, link, component}) => {
+          {navigation.map(({ title, link, component }) => {
             return (
-              <Route 
+              <Route
                 key={title}
                 exact={link === "/"}
-                path={link} 
+                path={link}
                 component={component}
               />
-            )
+            );
           })}
         </Switch>
       </ThemeProvider>
