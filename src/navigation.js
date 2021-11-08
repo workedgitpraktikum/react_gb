@@ -1,7 +1,7 @@
 import { ChatTwoTone, HomeTwoTone, PersonTwoTone } from "@material-ui/icons";
-import Chats from "./containers/Chats/Chats";
-import Home from "./containers/Home/Home";
-import Profile from "./containers/Profile/Profile";
+import Chats from "./pages/Chats/Chats";
+import Home from "./pages/Home/Home";
+import Profile from "./pages/Profile/Profile";
 
 export const navigation = [
   {

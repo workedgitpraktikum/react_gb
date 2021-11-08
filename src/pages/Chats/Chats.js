@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
 import { Grid } from "@material-ui/core";
-import ChatList from "../../components/ChatList/ChatList";
-import MessageBox from "../MessageBox/MessageBox";
+import MessageBox from "../../containers/MessageBox/MessageBox";
 import { CHAT_LIST } from "../../const";
+import ChatBox from "../../containers/ChatBox/ChatBox";
 
 const Chats = () => {
   const { path } = useRouteMatch();
@@ -40,7 +40,7 @@ const Chats = () => {
       }}
     >
       <Grid item xs={3}>
-        <ChatList
+        <ChatBox
           chatList={chatList}
           handleChatAdd={handleChatAdd}
           handleChatDelete={handleChatDelete}
