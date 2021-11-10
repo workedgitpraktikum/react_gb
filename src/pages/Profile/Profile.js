@@ -1,10 +1,11 @@
 import { Checkbox, FormControlLabel, Grid, Paper } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { SHOW_USERNAME } from "../../store/profile/actions";
+import { showUsername } from "../../store/profile/actions";
+import { getIsShowUsername } from "../../store/profile/selectors";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const showUsername = useSelector((state) => state.showUsername);
+  const isShowUsername = useSelector(getIsShowUsername);
 
   return (
     <Grid container>
@@ -21,9 +22,9 @@ const Profile = () => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={showUsername}
+                checked={isShowUsername}
                 onChange={() => {
-                  dispatch({ type: SHOW_USERNAME });
+                  dispatch(showUsername(!isShowUsername));
                 }}
                 name="private"
                 color="primary"

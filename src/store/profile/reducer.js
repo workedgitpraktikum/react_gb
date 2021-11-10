@@ -1,7 +1,7 @@
 import { SHOW_USERNAME } from "./actions";
 
 const initialState = {
-  showUsername: true,
+  isShowUsername: true,
 };
 
 export const profileReducer = (state = initialState, action) => {
@@ -9,7 +9,7 @@ export const profileReducer = (state = initialState, action) => {
     case SHOW_USERNAME: {
       return {
         ...state,
-        showUsername: !state.showUsername,
+        isShowUsername: action.payload,
       };
     }
     default: {

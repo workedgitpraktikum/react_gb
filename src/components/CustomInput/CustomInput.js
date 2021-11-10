@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const CustomInput = ({ placeholder, icon, handleButtonClick }) => {
   const [value, setValue] = useState("");
+
   return (
     <Paper
       style={{

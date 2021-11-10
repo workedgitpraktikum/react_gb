@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Avatar,
   IconButton,
@@ -7,9 +8,10 @@ import {
 } from "@material-ui/core";
 import { DeleteTwoTone } from "@material-ui/icons";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 
-const ChatItem = ({ id, name, image, handleChatDelete }) => {
+const ChatItem = ({ chat, handleChatItemDelete }) => {
+  const { id, image, name } = chat;
+
   return (
     <ListItem button component={Link} to={`/chats/${id}`}>
       <ListItemAvatar>
@@ -19,7 +21,7 @@ const ChatItem = ({ id, name, image, handleChatDelete }) => {
       <IconButton
         color="secondary"
         onClick={() => {
-          handleChatDelete(id);
+          handleChatItemDelete(id);
         }}
       >
         <DeleteTwoTone />
@@ -31,8 +33,10 @@ const ChatItem = ({ id, name, image, handleChatDelete }) => {
 export default ChatItem;
 
 ChatItem.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  image: PropTypes.string,
-  handleChatDelete: PropTypes.func,
+  chat: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    image: PropTypes.string,
+  }),
+  handleChatItemDelete: PropTypes.func,
 };

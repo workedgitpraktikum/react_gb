@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -10,7 +11,6 @@ import {
 } from "@material-ui/core";
 import { NightsStayTwoTone, WbSunnyTwoTone } from "@material-ui/icons";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import { navigation } from "../../navigation";
 
 const useStyles = makeStyles({
