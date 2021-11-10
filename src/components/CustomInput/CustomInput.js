@@ -1,12 +1,9 @@
 import { IconButton, InputBase, Paper } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { chatAdd } from "../../store/chats/actions";
 
-const CustomInput = ({ placeholder, icon }) => {
+const CustomInput = ({ placeholder, icon, handleButtonClick }) => {
   const [value, setValue] = useState("");
-  const dispatch = useDispatch();
 
   return (
     <Paper
@@ -28,14 +25,7 @@ const CustomInput = ({ placeholder, icon }) => {
       <IconButton
         disabled={!value}
         onClick={() => {
-          dispatch(
-            chatAdd({
-              id: `chat_${Date.now()}`,
-              name: value,
-              image: `https://picsum.photos/id/11/45`,
-              messages: [],
-            })
-          );
+          handleButtonClick(value);
           setValue("");
         }}
       >
@@ -50,4 +40,5 @@ export default CustomInput;
 CustomInput.propTypes = {
   placeholder: PropTypes.string,
   icon: PropTypes.element,
+  handleButtonClick: PropTypes.func,
 };

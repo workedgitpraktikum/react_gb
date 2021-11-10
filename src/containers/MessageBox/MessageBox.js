@@ -1,64 +1,65 @@
-import { useEffect, useState } from "react";
-import { Grid } from "@material-ui/core";
-import Message from "../../components/Message/Message";
-import NewMessage from "../../components/NewMessage/NewMessage";
-import { BOT, USER } from "../../const";
-import PropTypes from "prop-types";
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router";
+import { Grid } from "@material-ui/core";
+import NewMessage from "../../components/NewMessage/NewMessage";
+import MessageList from "../../components/MessageList/MessageList";
+import { getMessageList } from "../../store/messages/selectors";
+import { messageAdd } from "../../store/messages/actions.js";
+import { getIsChatExist } from "../../store/chats/selectors";
+import { BOT, USER } from "../../const";
 
-const MessageBox = ({ chatList }) => {
+const MessageBox = () => {
   const { chatID } = useParams();
-  const chatItem = chatList.find((chatItem) => chatItem.id === chatID);
+  const messageList = useSelector(getMessageList(chatID));
+  const isChatExist = useSelector(getIsChatExist(chatID));
+  const dispatch = useDispatch();
 
-  const [messageList, setMessageList] = useState([]);
-
-  //функция добавления нового сообщения
-  const addNewMessage = (author, text) => {
-    setMessageList((messageList) => [
-      ...messageList,
-      {
-        id: author + Date.now(),
-        author: author,
-        text: text,
-      },
-    ]);
-  };
-
-  //обработчик нажатия кнопки отправки сообщения
-  const handleButtonClick = (messageText) => {
+  //обработчик функции добавления сообщения
+  const onMessageAdd = (messageText) => {
     addNewMessage(USER, messageText);
   };
 
-  //проверка отправки сообщения пользователем и ответ бота
-  useEffect(() => {
-    const lastMessage = messageList[messageList.length - 1];
+  //функция добавления нового сообщения
+  const addNewMessage = useCallback(
+    (user, text) => {
+      dispatch(
+        messageAdd(chatID, {
+          id: Date.now(),
+          user: user,
+          text: text,
+        })
+      );
+    },
+    [chatID, dispatch]
+  );
 
-    if (messageList.length === 0 || lastMessage.author !== USER) {
+  //добавление сообщения бота после сообщения пользователя
+  useEffect(() => {
+    if (!messageList || messageList.length === 0) {
+      return;
+    }
+    const lastMessage = messageList[messageList.length - 1];
+    if (lastMessage.user !== USER) {
       return;
     }
     const timerID = setTimeout(() => {
       addNewMessage(BOT.name, BOT.message);
     }, 1500);
-
     return () => clearTimeout(timerID);
-  }, [messageList]);
+  }, [messageList, addNewMessage]);
 
-  if (!chatItem) {
+  //возврат на страницу чатов, если чата по ID не существует
+  if (isChatExist === -1) {
     return <Redirect to="/chats/" />;
   }
 
   return (
     <Grid container direction="column-reverse">
-      {messageList.map(({ id, text, author }) => {
-        return <Message key={id} text={text} author={author} />;
-      })}
-      <NewMessage handleButtonClick={handleButtonClick} />
+      <MessageList messageList={messageList} />
+      <NewMessage handleMessageAdd={onMessageAdd} />
     </Grid>
   );
 };
 
 export default MessageBox;
-
-MessageBox.propTypes = {
-  chatList: PropTypes.array,
-};
