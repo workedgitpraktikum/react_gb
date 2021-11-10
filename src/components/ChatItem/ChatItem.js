@@ -8,8 +8,13 @@ import {
 import { DeleteTwoTone } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { chatDelete } from "../../store/chats/actions";
 
-const ChatItem = ({ id, name, image, handleChatDelete }) => {
+const ChatItem = ({ chat }) => {
+  const { id, image, name } = chat;
+  const dispatch = useDispatch();
+
   return (
     <ListItem button component={Link} to={`/chats/${id}`}>
       <ListItemAvatar>
@@ -19,7 +24,7 @@ const ChatItem = ({ id, name, image, handleChatDelete }) => {
       <IconButton
         color="secondary"
         onClick={() => {
-          handleChatDelete(id);
+          dispatch(chatDelete(id));
         }}
       >
         <DeleteTwoTone />
@@ -31,8 +36,9 @@ const ChatItem = ({ id, name, image, handleChatDelete }) => {
 export default ChatItem;
 
 ChatItem.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  image: PropTypes.string,
-  handleChatDelete: PropTypes.func,
+  chat: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    image: PropTypes.string,
+  }),
 };
