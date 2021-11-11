@@ -4,7 +4,8 @@ import Header from "./components/Header/Header";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { navigation } from "./navigation";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { store, persistor } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
 
 const initialTheme = createTheme({
   palette: {
@@ -37,24 +38,26 @@ function App() {
 
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Header changeThemeType={changeThemeType} />
-          <Switch>
-            {navigation.map(({ title, link, component }) => {
-              return (
-                <Route
-                  key={title}
-                  exact={link === "/"}
-                  path={link}
-                  component={component}
-                />
-              );
-            })}
-          </Switch>
-        </ThemeProvider>
-      </BrowserRouter>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Header changeThemeType={changeThemeType} />
+            <Switch>
+              {navigation.map(({ title, link, component }) => {
+                return (
+                  <Route
+                    key={title}
+                    exact={link === "/"}
+                    path={link}
+                    component={component}
+                  />
+                );
+              })}
+            </Switch>
+          </ThemeProvider>
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   );
 }
