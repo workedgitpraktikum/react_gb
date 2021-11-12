@@ -5,7 +5,7 @@ import { Grid } from "@material-ui/core";
 import NewMessage from "../../components/NewMessage/NewMessage";
 import MessageList from "../../components/MessageList/MessageList";
 import { getMessageList } from "../../store/messages/selectors";
-import { messageAddWithBotResponse } from "../../store/messages/actions.js";
+import { messageAdd } from "../../store/messages/actions.js";
 import { getIsChatExist } from "../../store/chats/selectors";
 import { USER } from "../../const";
 
@@ -24,7 +24,7 @@ const MessageBox = () => {
   const addNewMessage = useCallback(
     (user, text) => {
       dispatch(
-        messageAddWithBotResponse(chatID, {
+        messageAdd(chatID, {
           id: Date.now(),
           user: user,
           text: text,
