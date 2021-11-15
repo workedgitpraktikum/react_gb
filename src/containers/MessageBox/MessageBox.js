@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router";
 import { Grid } from "@material-ui/core";
@@ -7,7 +7,7 @@ import MessageList from "../../components/MessageList/MessageList";
 import { getMessageList } from "../../store/messages/selectors";
 import { messageAdd } from "../../store/messages/actions.js";
 import { getIsChatExist } from "../../store/chats/selectors";
-import { BOT, USER } from "../../const";
+import { USER } from "../../const";
 
 const MessageBox = () => {
   const { chatID } = useParams();
@@ -20,7 +20,7 @@ const MessageBox = () => {
     addNewMessage(USER, messageText);
   };
 
-  //функция добавления нового сообщения
+  //функция добавления нового сообщения с ответом бота
   const addNewMessage = useCallback(
     (user, text) => {
       dispatch(
@@ -33,21 +33,6 @@ const MessageBox = () => {
     },
     [chatID, dispatch]
   );
-
-  //добавление сообщения бота после сообщения пользователя
-  useEffect(() => {
-    if (!messageList || messageList.length === 0) {
-      return;
-    }
-    const lastMessage = messageList[messageList.length - 1];
-    if (lastMessage.user !== USER) {
-      return;
-    }
-    const timerID = setTimeout(() => {
-      addNewMessage(BOT.name, BOT.message);
-    }, 1500);
-    return () => clearTimeout(timerID);
-  }, [messageList, addNewMessage]);
 
   //возврат на страницу чатов, если чата по ID не существует
   if (isChatExist === -1) {
