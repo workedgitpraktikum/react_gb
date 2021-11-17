@@ -1,7 +1,13 @@
-import { ChatTwoTone, HomeTwoTone, PersonTwoTone } from "@material-ui/icons";
+import {
+  ChatTwoTone,
+  HomeTwoTone,
+  PersonTwoTone,
+  PetsTwoTone,
+} from "@material-ui/icons";
 import Chats from "./pages/Chats/Chats";
 import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
+import FetchCat from "./pages/FetchCat/FetchCat";
 
 export const navigation = [
   {
@@ -21,5 +27,11 @@ export const navigation = [
     link: "/profile",
     component: Profile,
     icon: <PersonTwoTone />,
+  },
+  {
+    title: "Fetch cat",
+    link: "/fetch-cat",
+    component: FetchCat,
+    icon: <PetsTwoTone />,
   },
 ];
