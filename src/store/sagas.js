@@ -1,5 +1,14 @@
-import { put, takeLatest, delay } from "redux-saga/effects";
-import { BOT } from "../const";
+import axios from "axios";
+import {
+  put,
+  takeLatest,
+  delay,
+  all,
+  call,
+  takeEvery,
+} from "redux-saga/effects";
+import { BOT, FETCH_URL } from "../const";
+import { fetchData } from "./fetch/routines";
 import { messageAdd } from "./messages/actions";
 
 function* onMessageAdd(action) {
@@ -17,8 +26,23 @@ function* onMessageAdd(action) {
   }
 }
 
-function* saga() {
-  yield takeLatest("MESSAGE_ADD", onMessageAdd);
+function* onDataFetch() {
+  try {
+    yield put(fetchData.request());
+    const response = yield call(axios.get, FETCH_URL);
+    yield put(fetchData.success(response.data));
+  } catch (error) {
+    yield put(fetchData.failure(error.message));
+  } finally {
+    yield put(fetchData.fulfill());
+  }
 }
 
-export default saga;
+function* watchAll() {
+  yield all([
+    takeLatest("MESSAGE_ADD", onMessageAdd),
+    takeEvery(fetchData.TRIGGER, onDataFetch),
+  ]);
+}
+
+export default watchAll;
