@@ -8,6 +8,7 @@ import { messagesReducer } from "./messages/reducer";
 import { profileReducer } from "./profile/reducer";
 import saga from "./sagas.js";
 import { fetchReducer } from "./fetch/reducer";
+import { authReducer } from "./auth/reducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   chats: chatsReducer,
   messages: messagesReducer,
   fetch: fetchReducer,
+  auth: authReducer,
 });
 
 const persistConfig = {

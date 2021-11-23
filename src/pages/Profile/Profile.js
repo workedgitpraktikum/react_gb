@@ -1,5 +1,12 @@
-import { Checkbox, FormControlLabel, Grid, Paper } from "@material-ui/core";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Paper,
+} from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
+import { auth } from "../../services/firebase";
 import { showUsername } from "../../store/profile/actions";
 import { getIsShowUsername } from "../../store/profile/selectors";
 
@@ -17,6 +24,7 @@ const Profile = () => {
           style={{
             paddingLeft: "0.75rem",
             display: "flex",
+            margin: "1rem 0",
           }}
         >
           <FormControlLabel
@@ -33,6 +41,17 @@ const Profile = () => {
             label="Отображать имя пользователя"
           />
         </Paper>
+      </Grid>
+      <Grid>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            auth.signOut();
+          }}
+        >
+          Выйти из профиля
+        </Button>
       </Grid>
     </Grid>
   );
