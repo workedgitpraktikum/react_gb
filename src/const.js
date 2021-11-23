@@ -24,3 +24,5 @@ export const CHAT_LIST = [
     image: "https://picsum.photos/id/33/40",
   },
 ];
+
+export const FETCH_URL = "https://thatcopy.pw/catapi/rest/";

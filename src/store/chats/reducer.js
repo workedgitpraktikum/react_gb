@@ -14,15 +14,12 @@ export const chatsReducer = (state = initialState, action) => {
       };
     }
     case CHAT_DELETE: {
-      const index = state.chatList.findIndex(
-        (chatItem) => chatItem.id === action.payload
-      );
+      const newChatList = [
+        ...state.chatList.filter((chatItem) => chatItem.id !== action.payload),
+      ];
       return {
         ...state,
-        chatList: [
-          ...state.chatList.slice(0, index),
-          ...state.chatList.slice(index + 1),
-        ],
+        chatList: newChatList,
       };
     }
     default: {

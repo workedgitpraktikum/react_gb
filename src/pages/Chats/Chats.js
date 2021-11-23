@@ -6,7 +6,6 @@ import NoChat from "../../components/NoChat/NoChat";
 
 const Chats = () => {
   const { path } = useRouteMatch();
-
   return (
     <Grid
       container
