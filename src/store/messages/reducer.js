@@ -1,4 +1,4 @@
-import { DELETE_CHAT_MESSAGES, MESSAGE_ADD } from "./actions";
+import { CHANGE_MESSAGES } from "./actions";
 
 const initialState = {
   messageList: {},
@@ -6,22 +6,10 @@ const initialState = {
 
 export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case MESSAGE_ADD: {
-      const { id, message } = action.payload;
+    case CHANGE_MESSAGES: {
+      const { chatID, messages } = action.payload;
       const newMessages = { ...state.messageList };
-      newMessages[id] = [...(newMessages[id] || []), message];
-
-      return {
-        messageList: newMessages,
-      };
-    }
-    case DELETE_CHAT_MESSAGES: {
-      if (!state.messageList.hasOwnProperty(action.payload)) {
-        return state;
-      }
-      const newMessages = { ...state.messageList };
-      delete newMessages[action.payload];
-
+      newMessages[chatID] = [...messages];
       return {
         messageList: newMessages,
       };

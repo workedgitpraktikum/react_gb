@@ -8,23 +8,40 @@ import {
   takeEvery,
 } from "redux-saga/effects";
 import { BOT, FETCH_URL } from "../const";
+import { messagesRef } from "../services/firebase";
 import { fetchData } from "./fetch/routines";
-import { messageAdd } from "./messages/actions";
+import { /* changeMessages,  */ messageAdd } from "./messages/actions";
 
 function* onMessageAdd(action) {
-  const { id, message } = action.payload;
-
+  const { chatID, message } = action.payload;
+  messagesRef.child(chatID).child(message.id).set(message);
   if (message.user !== BOT.name) {
     yield delay(1500);
+    const botMesageID = Date.now();
     yield put(
-      messageAdd(id, {
-        id: Date.now(),
+      messageAdd(chatID, {
+        id: botMesageID,
         user: BOT.name,
         text: BOT.message,
       })
     );
   }
 }
+
+function* onChatDelete(action) {
+  const { chatID } = action.payload;
+  yield messagesRef.child(chatID).remove();
+}
+//не работает
+/* function* initMessageTracking() {
+  yield messagesRef.on("value", (snapshot) => {
+    const messages = [];
+    snapshot.forEach((snap) => {
+      messages.push(snap.val());
+    });
+    put(changeMessages(snapshot.key, messages));
+  });
+} */
 
 function* onDataFetch() {
   try {
@@ -42,6 +59,8 @@ function* watchAll() {
   yield all([
     takeLatest("MESSAGE_ADD", onMessageAdd),
     takeEvery(fetchData.TRIGGER, onDataFetch),
+    takeEvery("DELETE_CHAT_MESSAGES", onChatDelete),
+    /* takeEvery("TRACK_MESSAGES", initMessageTracking) */
   ]);
 }
 

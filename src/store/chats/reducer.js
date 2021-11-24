@@ -1,8 +1,7 @@
-import { CHAT_LIST } from "../../const";
 import { CHAT_ADD, CHAT_DELETE } from "./actions";
 
 const initialState = {
-  chatList: CHAT_LIST,
+  chatList: [],
 };
 
 export const chatsReducer = (state = initialState, action) => {

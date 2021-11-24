@@ -14,7 +14,7 @@ const ChatBox = () => {
   const onChatAdd = (value) => {
     dispatch(
       chatAdd({
-        id: `chat_${Date.now()}`,
+        id: `chat${Date.now()}`,
         name: value,
         image: `https://picsum.photos/id/11/45`,
       })
