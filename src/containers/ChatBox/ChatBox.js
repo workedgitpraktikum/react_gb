@@ -3,8 +3,10 @@ import { Add } from "@material-ui/icons";
 import CustomInput from "../../components/CustomInput/CustomInput.js";
 import ChatList from "../../components/ChatList/ChatList.js";
 import { getChatList } from "../../store/chats/selectors.js";
-import { chatAdd, chatDelete } from "../../store/chats/actions";
+import { changeChats, chatAdd, chatDelete } from "../../store/chats/actions";
 import { deleteChatMessages } from "../../store/messages/actions.js";
+import { useEffect } from "react";
+import { chatsRef } from "../../services/firebase.js";
 
 const ChatBox = () => {
   const chatList = useSelector(getChatList);
@@ -14,7 +16,6 @@ const ChatBox = () => {
   const onChatAdd = (value) => {
     dispatch(
       chatAdd({
-        id: `chat${Date.now()}`,
         name: value,
         image: `https://picsum.photos/id/11/45`,
       })
@@ -26,7 +27,19 @@ const ChatBox = () => {
     dispatch(chatDelete(chatID));
     dispatch(deleteChatMessages(chatID));
   };
-
+  useEffect(() => {
+    //подписка на изменения
+    chatsRef.on("value", (snapshot) => {
+      let chats = {};
+      snapshot.forEach((snap, i) => {
+        chats[snap.key] = snap.val();
+      });
+      dispatch(changeChats(chats));
+    });
+    return () => {
+      chatsRef.off("value");
+    };
+  }, [dispatch]);
   return (
     <>
       <CustomInput

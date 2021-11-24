@@ -5,10 +5,11 @@ import PropTypes from "prop-types";
 const ChatList = ({ chatList, handleChatItemDelete }) => {
   return (
     <List>
-      {chatList.map((chat) => (
+      {Object.entries(chatList).map(([key, value]) => (
         <ChatItem
-          key={chat.id}
-          chat={chat}
+          key={key}
+          chat={value}
+          id={key}
           handleChatItemDelete={handleChatItemDelete}
         />
       ))}
@@ -19,6 +20,6 @@ const ChatList = ({ chatList, handleChatItemDelete }) => {
 export default ChatList;
 
 ChatList.propTypes = {
-  chatList: PropTypes.array,
+  chatList: PropTypes.shape(),
   handleChatItemDelete: PropTypes.func,
 };

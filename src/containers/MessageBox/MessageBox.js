@@ -33,18 +33,22 @@ const MessageBox = () => {
     [chatID, dispatch]
   );
   useEffect(() => {
-    //listener
+    //подписка на изменения
     messagesRef.child(chatID).on("value", (snapshot) => {
       const messages = [];
       snapshot.forEach((snap) => {
         messages.push(snap.val());
       });
-
       dispatch(changeMessages(chatID, messages));
+
+      return () => {
+        messagesRef.off("value");
+      };
     });
   }, [dispatch, chatID]);
+
   //возврат на страницу чатов, если чата по ID не существует
-  if (isChatExist === -1) {
+  if (!isChatExist) {
     return <Redirect to="/chats/" />;
   }
 

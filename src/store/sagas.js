@@ -8,7 +8,7 @@ import {
   takeEvery,
 } from "redux-saga/effects";
 import { BOT, FETCH_URL } from "../const";
-import { messagesRef } from "../services/firebase";
+import { chatsRef, messagesRef } from "../services/firebase";
 import { fetchData } from "./fetch/routines";
 import { /* changeMessages,  */ messageAdd } from "./messages/actions";
 
@@ -28,7 +28,16 @@ function* onMessageAdd(action) {
   }
 }
 
+function* onChatAdd(action) {
+  const { newChat } = action.payload;
+  yield chatsRef.push(newChat);
+}
+
 function* onChatDelete(action) {
+  const { chatID } = action.payload;
+  yield chatsRef.child(chatID).remove();
+}
+function* onChatMessagesDelete(action) {
   const { chatID } = action.payload;
   yield messagesRef.child(chatID).remove();
 }
@@ -59,7 +68,9 @@ function* watchAll() {
   yield all([
     takeLatest("MESSAGE_ADD", onMessageAdd),
     takeEvery(fetchData.TRIGGER, onDataFetch),
-    takeEvery("DELETE_CHAT_MESSAGES", onChatDelete),
+    takeEvery("CHAT_ADD", onChatAdd),
+    takeEvery("CHAT_DELETE", onChatDelete),
+    takeEvery("DELETE_CHAT_MESSAGES", onChatMessagesDelete),
     /* takeEvery("TRACK_MESSAGES", initMessageTracking) */
   ]);
 }

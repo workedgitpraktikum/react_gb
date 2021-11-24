@@ -8,8 +8,7 @@ export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_MESSAGES: {
       const { chatID, messages } = action.payload;
-      const newMessages = { ...state.messageList };
-      newMessages[chatID] = [...messages];
+      const newMessages = { ...state.messageList, [chatID]: messages };
       return {
         messageList: newMessages,
       };

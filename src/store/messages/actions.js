@@ -21,7 +21,9 @@ export const changeMessages = (chatID, messages) => ({
 
 export const deleteChatMessages = (chatID) => ({
   type: DELETE_CHAT_MESSAGES,
-  payload: chatID,
+  payload: {
+    chatID: chatID,
+  },
 });
 
 /* export const trackMessages = () => ({
