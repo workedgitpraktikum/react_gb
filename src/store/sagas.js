@@ -41,6 +41,14 @@ function* onChatMessagesDelete(action) {
   const { chatID } = action.payload;
   yield messagesRef.child(chatID).remove();
 }
+
+/* function* onSetUsername(action) {
+  yield auth.currentUser?.updateProfile({
+      displayName: action.payload,
+      email: user.email,
+    });
+} */
+
 //не работает
 /* function* initMessageTracking() {
   yield messagesRef.on("value", (snapshot) => {
@@ -71,6 +79,7 @@ function* watchAll() {
     takeEvery("CHAT_ADD", onChatAdd),
     takeEvery("CHAT_DELETE", onChatDelete),
     takeEvery("DELETE_CHAT_MESSAGES", onChatMessagesDelete),
+    /* takeEvery("SET_USERNAME", onSetUsername), */
     /* takeEvery("TRACK_MESSAGES", initMessageTracking) */
   ]);
 }

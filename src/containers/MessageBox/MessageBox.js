@@ -7,20 +7,22 @@ import MessageList from "../../components/MessageList/MessageList";
 import { getMessageList } from "../../store/messages/selectors";
 import { changeMessages, messageAdd } from "../../store/messages/actions.js";
 import { getIsChatExist } from "../../store/chats/selectors";
-import { USER } from "../../const";
 import { messagesRef } from "../../services/firebase";
+import { getUsername } from "../../store/profile/selectors";
 
 const MessageBox = () => {
   const { chatID } = useParams();
   const messageList = useSelector(getMessageList(chatID));
   const isChatExist = useSelector(getIsChatExist(chatID));
+  const username = useSelector(getUsername);
+
   const dispatch = useDispatch();
 
   //обработчик функции добавления сообщения
   const onMessageAdd = (messageText) => {
     addNewMessage({
       id: Date.now(),
-      user: USER,
+      user: username,
       text: messageText,
     });
   };

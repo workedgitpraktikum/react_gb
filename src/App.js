@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import { getIsAuth } from "./store/auth/selectors";
 import { signInUser, signOutUser } from "./store/auth/actions";
 import { auth } from "./services/firebase";
+import { initUserInfo } from "./store/profile/actions";
 
 const initialTheme = createTheme({
   palette: {
@@ -28,6 +29,12 @@ function App() {
     auth.onAuthStateChanged((user) => {
       if (user) {
         dispatch(signInUser(user));
+        dispatch(
+          initUserInfo({
+            username: auth.currentUser.displayName,
+            email: auth.currentUser.email,
+          })
+        );
       } else {
         dispatch(signOutUser());
       }

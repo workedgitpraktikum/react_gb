@@ -3,8 +3,6 @@ export const BOT = {
   message: "Привет! 👋 Задай мне вопрос, и я постараюсь тебе помочь.",
 };
 
-export const USER = "Vlad";
-
 export const FETCH_URL = "https://thatcopy.pw/catapi/rest/";
 
 export const signUp = {

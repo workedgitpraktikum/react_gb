@@ -5,14 +5,35 @@ import {
   Grid,
   Paper,
 } from "@material-ui/core";
+import { Check } from "@material-ui/icons";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import CustomInput from "../../components/CustomInput/CustomInput";
 import { auth } from "../../services/firebase";
-import { showUsername } from "../../store/profile/actions";
-import { getIsShowUsername } from "../../store/profile/selectors";
+import { setUsername, showUsername } from "../../store/profile/actions";
+import {
+  getIsShowUsername,
+  getUserEmail,
+  getUsername,
+} from "../../store/profile/selectors";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const isShowUsername = useSelector(getIsShowUsername);
+  const user = auth.currentUser;
+  const username = useSelector(getUsername);
+  const email = useSelector(getUserEmail);
+
+  const handleSetUsername = (value) => {
+    dispatch(setUsername(value));
+  };
+
+  useEffect(() => {
+    user?.updateProfile({
+      displayName: username,
+      email: user.email,
+    });
+  }, [user, username]);
 
   return (
     <Grid container>
@@ -24,7 +45,36 @@ const Profile = () => {
           style={{
             paddingLeft: "0.75rem",
             display: "flex",
-            margin: "1rem 0",
+            margin: "0 1rem",
+          }}
+        >
+          <p>{username}</p>
+        </Paper>
+      </Grid>
+      <Grid item xs={12}>
+        <Paper
+          style={{
+            paddingLeft: "0.75rem",
+            display: "flex",
+            margin: "0 1rem",
+          }}
+        >
+          <p>{email}</p>
+        </Paper>
+      </Grid>
+      <Grid item xs={6}>
+        <CustomInput
+          placeholder="Введите имя пользователя"
+          icon={<Check />}
+          handleButtonClick={handleSetUsername}
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <Paper
+          style={{
+            paddingLeft: "0.75rem",
+            display: "flex",
+            margin: "0 1rem",
           }}
         >
           <FormControlLabel
