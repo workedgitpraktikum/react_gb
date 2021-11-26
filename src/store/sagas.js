@@ -8,23 +8,57 @@ import {
   takeEvery,
 } from "redux-saga/effects";
 import { BOT, FETCH_URL } from "../const";
+import { chatsRef, messagesRef } from "../services/firebase";
 import { fetchData } from "./fetch/routines";
-import { messageAdd } from "./messages/actions";
+import { /* changeMessages,  */ messageAdd } from "./messages/actions";
 
 function* onMessageAdd(action) {
-  const { id, message } = action.payload;
-
+  const { chatID, message } = action.payload;
+  messagesRef.child(chatID).child(message.id).set(message);
   if (message.user !== BOT.name) {
     yield delay(1500);
+    const botMesageID = Date.now();
     yield put(
-      messageAdd(id, {
-        id: Date.now(),
+      messageAdd(chatID, {
+        id: botMesageID,
         user: BOT.name,
         text: BOT.message,
       })
     );
   }
 }
+
+function* onChatAdd(action) {
+  const { newChat } = action.payload;
+  yield chatsRef.push(newChat);
+}
+
+function* onChatDelete(action) {
+  const { chatID } = action.payload;
+  yield chatsRef.child(chatID).remove();
+}
+function* onChatMessagesDelete(action) {
+  const { chatID } = action.payload;
+  yield messagesRef.child(chatID).remove();
+}
+
+/* function* onSetUsername(action) {
+  yield auth.currentUser?.updateProfile({
+      displayName: action.payload,
+      email: user.email,
+    });
+} */
+
+//не работает
+/* function* initMessageTracking() {
+  yield messagesRef.on("value", (snapshot) => {
+    const messages = [];
+    snapshot.forEach((snap) => {
+      messages.push(snap.val());
+    });
+    put(changeMessages(snapshot.key, messages));
+  });
+} */
 
 function* onDataFetch() {
   try {
@@ -42,6 +76,11 @@ function* watchAll() {
   yield all([
     takeLatest("MESSAGE_ADD", onMessageAdd),
     takeEvery(fetchData.TRIGGER, onDataFetch),
+    takeEvery("CHAT_ADD", onChatAdd),
+    takeEvery("CHAT_DELETE", onChatDelete),
+    takeEvery("DELETE_CHAT_MESSAGES", onChatMessagesDelete),
+    /* takeEvery("SET_USERNAME", onSetUsername), */
+    /* takeEvery("TRACK_MESSAGES", initMessageTracking) */
   ]);
 }
 

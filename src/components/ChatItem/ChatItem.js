@@ -9,8 +9,8 @@ import {
 import { DeleteTwoTone } from "@material-ui/icons";
 import PropTypes from "prop-types";
 
-const ChatItem = ({ chat, handleChatItemDelete }) => {
-  const { id, image, name } = chat;
+const ChatItem = ({ id, chat, handleChatItemDelete }) => {
+  const { image, name } = chat;
 
   return (
     <ListItem button component={Link} to={`/chats/${id}`}>

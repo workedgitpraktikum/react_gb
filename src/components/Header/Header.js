@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Header = ({ changeThemeType }) => {
+const Header = ({ isAuth, changeThemeType }) => {
   const classes = useStyles();
   const [isDark, setIsDark] = useState(false);
 
@@ -39,19 +39,20 @@ const Header = ({ changeThemeType }) => {
             Messenger
           </Typography>
           <Box className={classes.buttonGroup}>
-            {navigation.map(({ title, link, icon }) => {
-              return (
-                <Button
-                  key={title}
-                  color="inherit"
-                  to={link}
-                  component={Link}
-                  startIcon={icon}
-                >
-                  {title}
-                </Button>
-              );
-            })}
+            {isAuth &&
+              navigation.map(({ title, link, icon }) => {
+                return (
+                  <Button
+                    key={title}
+                    color="inherit"
+                    to={link}
+                    component={Link}
+                    startIcon={icon}
+                  >
+                    {title}
+                  </Button>
+                );
+              })}
           </Box>
           <WbSunnyTwoTone />
           <Switch

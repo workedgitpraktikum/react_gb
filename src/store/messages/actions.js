@@ -1,32 +1,31 @@
 export const MESSAGE_ADD = "MESSAGE_ADD";
+export const CHANGE_MESSAGES = "CHANGE_MESSAGES";
 export const DELETE_CHAT_MESSAGES = "DELETE_CHAT_MESSAGES";
+/* export const TRACK_MESSAGES = "TRACK_MESSAGES"; */
 
-export const messageAdd = (chatID, newMessage) => ({
+export const messageAdd = (chatID, message) => ({
   type: MESSAGE_ADD,
   payload: {
-    id: chatID,
-    message: newMessage,
+    chatID: chatID,
+    message: message,
   },
 });
 
-//action creator with redux-thunk
-/* export const messageAddWithBotResponse = (chatID, newMessage) => (dispatch) => {
-  dispatch(messageAdd(chatID, newMessage));
-
-  if (newMessage.user !== BOT.name) {
-    setTimeout(() => {
-      dispatch(
-        messageAdd(chatID, {
-          id: Date.now(),
-          user: BOT.name,
-          text: BOT.message,
-        })
-      );
-    }, 1500);
-  }
-}; */
+export const changeMessages = (chatID, messages) => ({
+  type: CHANGE_MESSAGES,
+  payload: {
+    chatID: chatID,
+    messages: messages,
+  },
+});
 
 export const deleteChatMessages = (chatID) => ({
   type: DELETE_CHAT_MESSAGES,
-  payload: chatID,
+  payload: {
+    chatID: chatID,
+  },
 });
+
+/* export const trackMessages = () => ({
+  type: TRACK_MESSAGES,
+}); */
